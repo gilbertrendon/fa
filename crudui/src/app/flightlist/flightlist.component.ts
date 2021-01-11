@@ -22,7 +22,7 @@ export class FlightlistComponent implements OnInit {
   filterPost = '';
   _usersList: User[];
   _flightList: Flight[];
-  _reservist: Reserv[];
+  //_reservist: Reserv[];
  
   _user = new User();
   _valid = 0; 
@@ -31,7 +31,7 @@ export class FlightlistComponent implements OnInit {
     this.getUsers();
     this._service.fetchFlightListFromRemote().subscribe(
       data=>{
-              console.log("Response received");
+              //console.log("Response received");
               this._flightList=data;
       },
       error=>console.log("Exception ocurred")
@@ -48,52 +48,88 @@ export class FlightlistComponent implements OnInit {
   getReservs(){
     this.reservService.getReservs().subscribe((res) =>{
       this.reservService.reservs = res;
-      this._reservist = res;
     })
   }
   //Para hacer las reservas
-  reservFlight(idflight:number){
+  reservFlight(idflight:number,hourinit:String, hourend: String){
+    //Debo seleccionar la hora inicio y extraer los dos ultimos caracteres yt convertrlo0sa numero para poder comparar
     this.getReservs();
-     let _longeservs = 0;
-    // if(this._reservist.length != undefined){
-    //   _longeservs = this._reservist.length;
-    // }else{
-    //   _longeservs = 0;
-    // }
-    
-  
-    //el id reserva creo que sino se manda nada lo pone automático
+    let _longeservs;
+    if(this.reservService.reservs ==undefined||this.reservService.reservs ==null){
+      _longeservs = 0;
+    }else{
+      console.log(this.reservService.reservs);
+      _longeservs = Object.keys(this.reservService.reservs).length;
+    }
+     console.log("long="+_longeservs);
+
     if( _longeservs == 0){
+
       let _reserv = new Reserv();
       _reserv.idreserv = _longeservs+1;
       _reserv.idflight = idflight;
       _reserv.iduser = this._user.id;
-      _reserv.valid = 1;//Debido a que es la primera inserción
+      _reserv.valid = 1;
             this.reservService.postReserv(_reserv).subscribe(
       data=>
             {
-             console.log("data added succesfully");
-             //this._route.navigate(['']) ;
+  
             },
             
             error=>console.log("error")
     )
-    //this._route.navigate(['']) 
     }else{
       for(let i in this._flightList){
         console.log("idflight"+this._flightList[i]["idflight"]+"idflightINSERTADO"+idflight);
-        if(this._flightList[i][idflight] == idflight){
-          //if()
-          console.log("encontré el vuelo al que le voy a hacer reserva");
+        if(this._flightList[i]["idflight"] == idflight){
+          let shoraini = hourinit.substring(11,12);
+          let horaini = Number(shoraini);
+          let shorafin = hourend.substring(11,12);
+          let horafin = Number(shorafin);
+          let shorafinvieja = this._flightList[i]["hourend"].substring(11,12);
+          let horafinvieja = Number(shorafinvieja);
+          let shorainivieja = this._flightList[i]["hourinit"].substring(11,12);
+          let horainivieja = Number(shorainivieja);
+
+
+
+          if((horaini<horainivieja&&horafin<horafinvieja&&horaini<horafin&&horainivieja<horafinvieja&&1<2)
+          ||(horaini>horafinvieja&&horafin>horainivieja&&horaini<horafin&&horainivieja<horafinvieja&&1<2))
+          {
+            let _reserv = new Reserv();
+            _reserv.idreserv = _longeservs+1;
+            _reserv.idflight = idflight;
+            _reserv.iduser = this._user.id;
+            _reserv.valid = 1;
+                  this.reservService.postReserv(_reserv).subscribe(
+            data=>
+                  {
+            
+                  },
+                  
+                  error=>console.log("error")
+          )
+          }else{
+            console.log("Horario no posible");
+          }
+        }else{
+          let _reserv = new Reserv();
+          _reserv.idreserv = _longeservs+1;
+          _reserv.idflight = idflight;
+          _reserv.iduser = this._user.id;
+          _reserv.valid = 1;
+                this.reservService.postReserv(_reserv).subscribe(
+          data=>
+                {
+          
+                },
+                
+                error=>console.log("error")
+        )
         }
       }
     }
 
-    
-    this._valid = 0;
-    console.log("idflight"+idflight+"iduser"+this._user.id);
-
-    //this._route.navigate(['/addreserv']);
   }
 
 
