@@ -1,11 +1,12 @@
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Pipe, PipeTransform } from '@angular/core';
 import { NgserviceService } from '../ngservice.service';
 import {UserService} from "../services/user.service";
 import {User} from "../user";
 import {Flight} from "../flight";
 import { ReservService } from '../services/reserv.service';
 import { Reserv } from '../reserv';
+import {FilterPipe} from 'src/app/filter.pipe';
 
 
 @Component({
@@ -18,6 +19,7 @@ export class FlightlistComponent implements OnInit {
   //, private _route:Route
   constructor(public reservService:ReservService,public userService:UserService, private _service:NgserviceService, private _route:Router) { }
 
+  filterPost = '';
   _usersList: User[];
   _flightList: Flight[];
   _reservist: Reserv[];

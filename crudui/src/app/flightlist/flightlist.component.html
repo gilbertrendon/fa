@@ -2,8 +2,8 @@
     <h2>Vuelos y tarifas</h2>
     <p>Operaciones CRUD</p>            
     <form action="" id="busquedaForm">
-      <!-- [(ngModel)]="filterPost"  -->
-      <input name="filterPost" placeholder="buscar..." type="text"  class="form-control"  >
+      <!--   -->
+      <input name="filterPost" placeholder="buscar..." type="text"  class="form-control" [(ngModel)]="filterPost" >
     </form>
     &nbsp;&nbsp;
     &nbsp;&nbsp;
@@ -28,7 +28,7 @@
           <tbody>
             <!-- *ngFor="let Fight of _flightList"  -->
             <!-- | filter:'cityinit':filterPost" -->
-                <tr *ngFor="let Flight of _flightList">
+                <tr *ngFor="let Flight of _flightList | filter:'cityend':filterPost">
     
                  <td>{{Flight.idflight}}</td> 
                   <td>{{Flight.state}}</td>

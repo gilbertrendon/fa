@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { LoguserComponent } from './loguser/loguser.component';
 import { ReguserComponent } from './reguser/reguser.component';
+import { FilterPipe } from './filter.pipe';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ReguserComponent } from './reguser/reguser.component';
     FlightlistComponent,
     AddreservComponent,
     LoguserComponent,
-    ReguserComponent
+    ReguserComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
