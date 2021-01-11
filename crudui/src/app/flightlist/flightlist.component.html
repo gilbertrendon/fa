@@ -1,0 +1,60 @@
+<div class="container">
+    <h2>Vuelos y tarifas</h2>
+    <p>Operaciones CRUD</p>            
+    <form action="" id="busquedaForm">
+      <!-- [(ngModel)]="filterPost"  -->
+      <input name="filterPost" placeholder="buscar..." type="text"  class="form-control"  >
+    </form>
+    &nbsp;&nbsp;
+    &nbsp;&nbsp;
+    <div class="row">
+      <div class="col">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Vuelo</th>
+              <th>Estado</th>
+              <th>Hora salida</th>
+              <th>Hora llegada</th>
+              <th>Ciudad salida</th>
+              <th>Ciudad llegada</th>
+              <th>Asientos disponibles</th>
+              <th>Costo</th>
+              <th>Usuario que reserva</th>
+              <th>Reservar</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <!-- *ngFor="let Fight of _flightList"  -->
+            <!-- | filter:'cityinit':filterPost" -->
+                <tr *ngFor="let Flight of _flightList">
+    
+                 <td>{{Flight.idflight}}</td> 
+                  <td>{{Flight.state}}</td>
+                  <td>{{Flight.hourinit}}</td>
+                  <td>{{Flight.hourend}}</td> 
+                 <td>{{Flight.cityinit}}</td>
+                 <td>{{Flight.cityend}}</td>
+                 <td>{{Flight.seats}}</td>
+                 <td>{{Flight.cost}}</td>
+              
+                  <td>
+                    <select id="user" name="user" #name="ngModel" [(ngModel)]="_user.id"
+                    placeholder="Selecciona un usuario">
+                  <option *ngFor="let user of userService.users" [value]="user.id">{{user.name}}</option>
+                  </select>
+                  </td>
+
+                 
+              <td>
+                
+                <button (click)="reservFlight(Flight.idflight)" type="button" class="btn btn-primary" >Reservar</button>
+                &nbsp;&nbsp;
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
